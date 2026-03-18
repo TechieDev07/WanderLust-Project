@@ -8,12 +8,16 @@ const listingSchema = Joi.object({
     country: Joi.string().required(),
     price: Joi.number().required().min(0),
 
-    // image object because your Listing model uses: listing.image.url
+    // ✅ category
+    category: Joi.string().required(),
+
+    // ✅ image should be INSIDE listing
     image: Joi.object({
       url: Joi.string().allow("", null),
       filename: Joi.string().allow("", null),
     }).optional(),
-  }).required(),
+
+  }).required()
 });
 
 const reviewSchema = Joi.object({

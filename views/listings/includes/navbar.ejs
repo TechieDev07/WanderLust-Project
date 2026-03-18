@@ -38,15 +38,19 @@
         <a class="nav-link" href="/listings">Explore</a>
       </div>
       <div class="navbar-nav ms-auto">
-         <form class="d-flex">
-      <input 
-         class="form-control me-2 search-inp" 
-         type="search" 
-         placeholder="Search destinations"
-         />
-      <button class="btn btn- search-btn" type="submit">
-      <i class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
+
+        <!-- SEARCH BAR -->
+      <form class="d-flex" action="/listings" method="GET">
+        <input 
+          type="search" 
+          name="search"   
+          class="form-control me-2 search-inp" 
+          placeholder="Search destinations"
+        />
+        <button class="btn search-btn" type="submit">
+          Search
+        </button>
+      </form>
       </div>
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Airbnd your home</a>
@@ -61,3 +65,4 @@
     </div>
   </div>
 </nav>
+
