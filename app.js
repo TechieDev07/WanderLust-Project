@@ -1,10 +1,14 @@
-if (process.env.NODE_ENV != "production") {
-    require("dotenv").config();
-}
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
+console.log("GLOBAL KEY:", process.env.GEMINI_API_KEY);
+
+
+// const fetch = require("node-fetch");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const path = require("path");
+// const path = require("path");
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate");
 app.use(express.static(path.join(__dirname,"/public")));
@@ -40,6 +44,7 @@ app.engine('ejs', ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.use(methodOverride("_method"));
 
 const store = MongoStore.create({
@@ -94,6 +99,60 @@ app.get("/", (req, res) => {
 app.use("/listings", listingRouter);  //as entire data of listing is in listing.js
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+
+// ChatBot code
+// app.post("/chat", async (req, res) => {
+//     try {
+//         console.log("BODY:", req.body);
+
+//         const userMsg = req.body.message;
+
+//         console.log("KEY:", process.env.GEMINI_API_KEY); // ✅ changed to GEMINI
+
+//         const response = await fetch(
+//             `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
+//             {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json" // ✅ removed x-api-key & anthropic-version (not needed for Gemini)
+//                 },
+//                 body: JSON.stringify({
+//                     // ✅ removed claude model & max_tokens — Gemini uses different format
+//                     systemInstruction: {
+//                         parts: [{ text: "You are a helpful hotel booking assistant." }]
+//                     },
+//                     contents: [
+//                         {
+//                             role: "user",
+//                             parts: [{ text: userMsg }] // ✅ Gemini uses parts[], not content
+//                         }
+//                     ]
+//                 })
+//             }
+//         );
+
+//         console.log("RAW RESPONSE STATUS:", response.status);
+
+//         const data = await response.json();
+
+//         console.log("API RESPONSE:", data);
+
+//         if (!data.candidates) { // ✅ Gemini returns candidates[], not content[]
+//             return res.json({
+//                 reply: "Error: " + (data.error?.message || "Something went wrong")
+//             });
+//         }
+
+//         res.json({
+//             reply: data.candidates[0].content.parts[0].text // ✅ correct Gemini response path
+//         });
+
+//     } catch (err) {
+//         console.log("ERROR:", err);
+//         res.status(500).json({ reply: "Server error" });
+//     }
+// });
+
 
 app.use((err, req, res, next) => {
     let {statusCode = 500, message = "Something went wrong!"} = err;

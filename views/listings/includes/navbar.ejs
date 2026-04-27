@@ -20,6 +20,37 @@
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 1rem;
    }
+
+   /* Only new additions below */
+   .btn-signup {
+    border: 1.5px solid #222;
+    border-radius: 25px;
+    padding: 6px 16px;
+    font-weight: 600;
+    color: #222;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+   }
+   .btn-signup:hover {
+    background: #222;
+    color: #fff;
+   }
+
+   .btn-login {
+    background-color: #fe424d;
+    border: 1.5px solid #fe424d;
+    border-radius: 25px;
+    padding: 6px 16px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+   }
+   .btn-login:hover {
+    background-color: #e0333e;
+   }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
@@ -52,11 +83,11 @@
         </button>
       </form>
       </div>
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Airbnd your home</a>
+      <div class="navbar-nav ms-auto gap-2 align-items-center">
+        <a class="nav-link" href="/listings/new">Wanderlust your home.</a>
         <% if(!currUser) { %>
-        <a class="nav-link"  href="/signup"><b>Sign Up</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
+        <a class="btn-signup" href="/signup">Sign Up</a>
+        <a class="btn-login" href="/login">Log in</a>
         <% } %> <% if(currUser) { %> 
         <a class="nav-link" href="/logout">Log out</a>
         <% } %>
@@ -65,4 +96,3 @@
     </div>
   </div>
 </nav>
-
